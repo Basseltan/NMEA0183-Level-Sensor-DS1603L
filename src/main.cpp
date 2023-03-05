@@ -46,7 +46,7 @@
 #include <WiFiManager.h>          //https://github.com/tzapu/WiFiManager
 #include <WiFiUdp.h>
 #include <ESPTelnet.h>            //https://github.com/LennartHennigs/ESPTelnet
-#include <DS1603L.h>              //https://github.com/wvmarle/Arduino_DS1603L
+#include "DS1603L.h"              //https://github.com/wvmarle/Arduino_DS1603L
 #include <SoftwareSerial.h>       //https://docs.arduino.cc/learn/built-in-libraries/software-serial
 #include <movingAvg.h>            //https://github.com/JChristensen/movingAvg
 #include <timer.h>                //https://github.com/brunocalou/Timer
@@ -82,6 +82,7 @@ bool      shouldSaveParameter   = false;
 #define FUEL_TANK_HEIGHT          400   // default fuel tank height (max. measuring distance) in mm
 #define FUEL_TANK_CAPACITY        30    // default fuel tank capacity in l
 #define SEND_NMEA_STRING_INTERVAL 2     // default interval time in s to send NMEA string 
+#define MIN_NMEA_STRING_INTERVAL  2     // minimum interval time in s to send NMEA string 
 #define NMEA_STRING_LENGTH        128
 #define FILL_LEVEL_TEST_MODE      false // testmode swipes fill level from 0 to 100%
 Timer sendNMEAstringTimer;
@@ -246,6 +247,7 @@ void onTelnetConnect(String ip) {
   char cstr[20];
   Serial.println("[Telnet] " + ip + " connected");
   telnet.println("\nWelcome " + telnet.getIP());
+  telnet.println("commands: [bye], [restart]");
   telnet.println(SKETCH_NAME);
   telnet.println(SKETCH_VERSION);
   telnet.println(SKETCH_ABOUT);
@@ -285,19 +287,19 @@ void setupTelnet() {
   telnet.onReconnect(onTelnetReconnect);
   telnet.onDisconnect(onTelnetDisconnect);
   // passing a lambda function
-  /*
   telnet.onInputReceived([](String str) {
     // checks for a certain command
-    if (str == "ping") {
-      telnet.println("> pong");
-      Serial.println("[Telnet] pong");
+    if (str == "restart") {
+      telnet.println("> restarting");
+      Serial.println("[Telnet] restart requested");
+      ESP.restart();
+      delay(5000);
     // disconnect the client
     } else if (str == "bye") {
       telnet.println("> disconnecting you...");
       telnet.disconnectClient();
       }
   });
-  */
   Serial.print("[Telnet] ");
   if (telnet.begin(TELNET_PORT)) {
     Serial.print("running: " + ip.toString() + " [");
@@ -412,6 +414,7 @@ void sendNMEA_XDR_sentence (void) {
   int height      = ReadDS1603L(); 
   if (height < 0)        
     return;                                      // e.g. no sensor connected
+
   if (configParam.entestmode) {
     static int swipe = 0;
     height = swipe++;                              // only for Testing!!!
@@ -545,7 +548,7 @@ void setup() {
   // read the custom parameters 
   configParam.tankhgt = atoi(custom_tankhgt.getValue());
   configParam.tankcap = atoi(custom_tankcap.getValue());
-  configParam.interval = atoi(custom_interval.getValue());
+  configParam.interval = (atoi(custom_interval.getValue()) < MIN_NMEA_STRING_INTERVAL) ? MIN_NMEA_STRING_INTERVAL : atoi(custom_interval.getValue());
   configParam.udpport = atol(custom_udpport.getValue());
   configParam.entelnet = (strncmp(custom_checkbox.getValue(), "T", 1) == 0);
   configParam.entestmode = (strncmp(custom_checkbox_2.getValue(), "T", 1) == 0);
