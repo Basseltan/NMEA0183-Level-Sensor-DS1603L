@@ -285,6 +285,7 @@ void setupTelnet() {
   telnet.onReconnect(onTelnetReconnect);
   telnet.onDisconnect(onTelnetDisconnect);
   // passing a lambda function
+  /*
   telnet.onInputReceived([](String str) {
     // checks for a certain command
     if (str == "ping") {
@@ -296,6 +297,7 @@ void setupTelnet() {
       telnet.disconnectClient();
       }
   });
+  */
   Serial.print("[Telnet] ");
   if (telnet.begin(TELNET_PORT)) {
     Serial.print("running: " + ip.toString() + " [");
@@ -311,22 +313,20 @@ void debugOutOnTelnet (int height, int avgHeight, int filledPerc, double filledL
 // ------------------------------------------------------------------------------------------
   if (telnetConnected){
     char cstr[20];
-    telnet.print("measured values-> ");
-    telnet.print(" height: ");
+    telnet.print("height: ");
     telnet.print(itoa(height, cstr, 10));
-    telnet.print("[mm],  avgHeight: ");
+    telnet.print("[mm], avgHeight: ");
     telnet.print(itoa(avgHeight, cstr, 10));
-    telnet.print("[mm], analogIn: ");
-    telnet.println(itoa(analogIn, cstr, 10));
-    telnet.print("calcula. values-> ");
-    telnet.print(" filledPerc: ");
-    telnet.print(itoa(filledPerc, cstr, 10));
-    telnet.print("[%], filledLiter: ");
-    telnet.print(dtostrf(filledLiter, 0, 1, cstr));
+    //telnet.print("[mm], analogIn: ");
+    //telnet.print(itoa(analogIn, cstr, 10));
+    //telnet.print(" filledPerc: ");
+    //telnet.print(itoa(filledPerc, cstr, 10));
+    //telnet.print("[%], filledLiter: ");
+    //telnet.print(dtostrf(filledLiter, 0, 1, cstr));
     telnet.print("[l], batVoltage: ");
     telnet.println(dtostrf(batVoltage, 0, 1, cstr));
     telnet.print("UDP=> ");
-    telnet.print(outputStr);
+    telnet.println(outputStr);
   }
 }
 // ------------------------------------------------------------------------------------------
@@ -554,7 +554,8 @@ void setup() {
   if (shouldSaveParameter) {
     EEPROMsaveConfig();
     Serial.println("Parameter saved");
-  }
+  } else
+    EEPROMreadConfig();
 
   if (wifiConnected()) {
     ip = WiFi.localIP();
