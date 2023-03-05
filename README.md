@@ -35,8 +35,7 @@ NMEA0183 Level Sensor DS1603L
   
  This project was inspired by norbert-walter https://github.com/norbert-walter/NMEA0183-Level-Sensor-DS1603L
  
- ![IMG_0899_small](https://user-images.githubusercontent.com/67091578/222971708-06b80d79-7483-4d83-97f7-ee9dfd0ea5f8.png)
- 
+ ![IMG_0899_small](https://user-images.githubusercontent.com/67091578/222971708-06b80d79-7483-4d83-97f7-ee9dfd0ea5f8.png) 
  ![NMEAremote_small](https://user-images.githubusercontent.com/67091578/222971718-160819ef-eff3-4e15-9cc0-b0820134d168.png)
 
  
