@@ -34,3 +34,7 @@ NMEA0183 Level Sensor DS1603L
  OTA is possible with hostname DS1603L-xxxxxx, passwd = access point passwd (set in portal)
   
  This project was inspired by norbert-walter https://github.com/norbert-walter/NMEA0183-Level-Sensor-DS1603L
+ 
+ ![IMG_0897](https://user-images.githubusercontent.com/67091578/222971305-c5920109-951d-4d82-81d6-c24b0efc2d33.PNG)
+![IMG_0898](https://user-images.githubusercontent.com/67091578/222971316-5ec11b83-0ecf-42e7-aa3b-20ed4dbed446.PNG)
+![IMG_0899](https://user-images.githubusercontent.com/67091578/222971325-b7898321-ca49-4b20-a8c8-47724eba8a90.PNG)
