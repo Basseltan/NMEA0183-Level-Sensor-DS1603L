@@ -137,10 +137,8 @@ void switchLEDoff (void) {
 }
 // ------------------------------------------------------------------------------------------
 void switchLEDtoggle (void) {
-  if (LEDisOn)
-    switchLEDoff();
-  else
-    switchLEDon();
+  LEDisOn = !LEDisOn;
+  digitalWrite(LED, LEDisOn);   // LED off
 }
 // ------------------------------------------------------------------------------------------
 void flashLED (void) {
@@ -317,15 +315,15 @@ void debugOutOnTelnet (int height, int avgHeight, int filledPerc, double filledL
     char cstr[20];
     telnet.print("height: ");
     telnet.print(itoa(height, cstr, 10));
-    telnet.print("[mm], avgHeight: ");
+    telnet.print(" mm, avgHeight: ");
     telnet.print(itoa(avgHeight, cstr, 10));
-    //telnet.print("[mm], analogIn: ");
-    //telnet.print(itoa(analogIn, cstr, 10));
-    //telnet.print(" filledPerc: ");
-    //telnet.print(itoa(filledPerc, cstr, 10));
-    //telnet.print("[%], filledLiter: ");
-    //telnet.print(dtostrf(filledLiter, 0, 1, cstr));
-    telnet.print("[l], batVoltage: ");
+    telnet.print(" mm, analogIn: ");
+    telnet.println(itoa(analogIn, cstr, 10));
+    telnet.print("filledPerc: ");
+    telnet.print(itoa(filledPerc, cstr, 10));
+    telnet.print(" %, filledLiter: ");
+    telnet.print(dtostrf(filledLiter, 0, 1, cstr));
+    telnet.print(" l, batVoltage: ");
     telnet.println(dtostrf(batVoltage, 0, 1, cstr));
     telnet.print("UDP=> ");
     telnet.println(outputStr);
