@@ -1,7 +1,7 @@
 # NMEA0183-Level-Sensor-DS1603L
 NMEA0183 Level Sensor DS1603L
 
- DS1603L Ultrasonic Level Sensor with NMEA 0183 UDP sender, using Tzapu´s WiFiManager
+ DS1603L Ultrasonic Level Sensor with NMEA 0183 UDP sender, using Tzapu´s WiFiManager on ESP8266
   
  The Tx Pin of the DS1603L has to be connected to D2 (max 3.3V!).
   
