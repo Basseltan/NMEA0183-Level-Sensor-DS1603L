@@ -128,7 +128,7 @@ bool LEDisOn = false;
 // ------------------------------------------------------------------------------------------
 void switchLEDon (void) {
   LEDisOn = true;
-  digitalWrite(LED, LOW);   // LED off
+  digitalWrite(LED, LOW);   // LED on
 }
 // ------------------------------------------------------------------------------------------
 void switchLEDoff (void) {
